@@ -57,6 +57,37 @@ html5up.prototype.upload = function() {
 
 }
 
+//check if the browser can support 5up.js
+html5up.prototype.checkBrowser = function()
+{
+	try{
+	formDataChk = new FormData();
+	}
+	catch(e)
+	{
+	formDataChk = false;
+	}
+	try{
+	xhrChk = new XMLHttpRequest();
+	}
+	catch(e)
+	{
+	xhrChk = false;
+	}
+
+	if(xhrChk && formDataChk)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+
+
+}
+
+//Event handlers
 //display progress. you can overwrite this on runtime to implement different display options
 html5up.prototype.progress = function(evt) {
 	if (evt.lengthComputable) {
