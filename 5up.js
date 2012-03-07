@@ -1,7 +1,12 @@
-function html5up(theFiles,theIndicator,theInfoEl)
+function html5up(theFiles,theInfoEl,theIndicator,theTarget)
 {
+	//File upload widget
 	this.theFiles = document.getElementById(theFiles);
+	//HTML Element where the file info / list is displayed
 	this.infoEl = document.getElementById(theInfoEl);
+	//script where the upload is sent
+	this.theTarget = theTarget;
+	//HTML Element where the upload progress is displayed
 	indicator = document.getElementById(theIndicator);
 }
 
@@ -38,7 +43,7 @@ html5up.prototype.upload = function() {
 
 	for(var i = 0;i<theFiles.length;i++)
 		{
-			myData.append("myUploadFile"+i, theFiles[i]);
+			myData.append("html5upFile"+i, theFiles[i]);
 		}
 	var xhr = new XMLHttpRequest();
 
@@ -47,7 +52,7 @@ html5up.prototype.upload = function() {
 
     xhr.addEventListener("error", this.failed, false);
     xhr.addEventListener("abort", this.canceled, false);
-    xhr.open("POST", "upload.php",true);
+    xhr.open("POST", this.theTarget,true);
     xhr.send(myData);
 
 }
@@ -56,7 +61,9 @@ html5up.prototype.upload = function() {
 html5up.prototype.progress = function(evt) {
 	if (evt.lengthComputable) {
         var percentComplete = Math.round(evt.loaded * 100 / evt.total);
-        indicator.innerHTML  = percentComplete.toString() + '%';
+        var total = percentComplete.toString();
+        indicator.innerHTML  =  total + "%";
+        //document.title = total + "%";
        }
        else {
          indicator.innerHTML  = "N/A";
@@ -65,7 +72,9 @@ html5up.prototype.progress = function(evt) {
 
 //this is fired when the UL is complete
 html5up.prototype.complete = function(evt) {
+		console.log(evt.target.responseText);
         indicator.innerHTML = "100%";
+        //document.title = "100%";
       }
 
 //fired when there is an error
