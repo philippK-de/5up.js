@@ -10,18 +10,31 @@
   <form id="uploadform1" enctype="multipart/form-data" method="post" action="#">
       <label for="myFile">Select File(s)</label>
       <input type="file" name="myFiles1" id="myFiles1" onchange="uploader.fileInfo();" multiple/>
-<br />
 
+<br />
       <input type="button"  value="Upload" onclick = "uploader.upload();" />
   </form>
-  <div id="progress1">0%</div>
-<div id = "fileInfo1">
+<br>
+<progress id = "progress1" value = "0" max = "100" style = "width:400px;height:25px;"></progress>
 
-</div>
+<div id = "fileInfo1"></div>
+
 
 
     <script type = "text/javascript">
 	uploader = new html5up("myFiles1","fileInfo1","progress1","upload.php");
+	uploader.progress = function(evt)
+	{
+		if (evt.lengthComputable) {
+        var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+        var total = percentComplete.toString();
+        document.getElementById("progress1").setAttribute("value",total);
+       }
+	}
+	uploader.complete = function(evt)
+	{
+		document.getElementById("progress1").setAttribute("value","100");
+	}
 
 	</script>
 </body>
