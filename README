@@ -1,14 +1,22 @@
-Upload files using HTML5
-License: LGPL 2.0 or later
-
 What is 5up ?
 -------------
 5up allows you to upload files asynchronously using only HTML5/Javascript.
 It does not use any nonstandard extensions like flash or activeX to do the uploading.
 
-You can also display progress information for the upload while it is in progress.
-Uploading multiple files is supported.
+It does not have dependencies on any other libraries (i.e. you don't need jquery or something like that)
+
+Features
+--------
+* Upload files asynchronously (Ajax)
+* Upload multiple files at once
+* Display upload progress 
+* Display upload errors
+
 
 Browser support
 ----------------
 This works in every modern browser. That is - not in IE.
+
+License
+-------
+LGPL 2.0 or later
