@@ -38,7 +38,7 @@ html5up.prototype.upload = function() {
 
 	for(var i = 0;i<theFiles.length;i++)
 		{
-			myData.append("fileToUpload"+i, theFiles[i]);
+			myData.append("myUploadFile"+i, theFiles[i]);
 		}
 
 	var xhr = new XMLHttpRequest();
