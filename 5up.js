@@ -1,6 +1,6 @@
 function html5up(theFiles,theInfoEl,theIndicator,theTarget)
 {
-	//File upload widget
+	//File upload element
 	this.theFiles = document.getElementById(theFiles);
 	//HTML Element where the file info / list is displayed
 	this.infoEl = document.getElementById(theInfoEl);
@@ -10,16 +10,20 @@ function html5up(theFiles,theInfoEl,theIndicator,theTarget)
 	indicator = document.getElementById(theIndicator);
 }
 
+//gets information about the files selected in theFiles and prints them to an HTML element
 html5up.prototype.fileInfo = function()
 {
    var theFiles = this.theFiles.files;
+   //String to be written to the HTML element where the fileinfo is displayed
    var outstr = "";
 
    outstr += "<ol>";
+   //loop through all the files from the file input field
    for(var i=0;i<theFiles.length;i++)
    {
 	   if (theFiles[i]) {
-	      var fileSize = 0;
+	      //Determine the size of the file
+		  var fileSize = 0;
 	      if (theFiles[i].size > 1024 * 1024)
 	      {
 	        fileSize = (Math.round(theFiles[i].size * 100 / (1024 * 1024)) / 100).toString() + 'MB';
@@ -29,31 +33,39 @@ html5up.prototype.fileInfo = function()
 		    fileSize = (Math.round(theFiles[i].size * 100 / 1024) / 100).toString() + 'KB';
 		  }
 
+		//Write a list item and the filename into the file info
 		outstr += "<li>" + theFiles[i].name + "</li>";
 	    }
     }
 	outstr += "</ol>";
+	//Write the file info to the HTML element
 	this.infoEl.innerHTML = outstr;
 }
 
-
+//uploads files to the script specified in theTarget
 html5up.prototype.upload = function() {
 	var theFiles = this.theFiles.files;
 	var myData = new FormData();
 
+	//Loop through the files and create an upload form object
 	for(var i = 0;i<theFiles.length;i++)
-		{
-			myData.append("html5upFile"+i, theFiles[i]);
-		}
+	{
+		myData.append("html5upFile"+i, theFiles[i]);
+	}
+
+	//Create new XMLHttpRequest
 	var xhr = new XMLHttpRequest();
 
+	//Add event listeners
  	xhr.upload.addEventListener("progress", this.progress, false);
     xhr.addEventListener("load", this.complete, false);
-
     xhr.addEventListener("error", this.failed, false);
     xhr.addEventListener("abort", this.canceled, false);
-    xhr.open("POST", this.theTarget,true);
-    xhr.send(myData);
+
+	//Open the connection
+	xhr.open("POST",this.theTarget,true);
+    //Send the upload form with the files
+	xhr.send(myData);
 
 }
 
@@ -61,18 +73,18 @@ html5up.prototype.upload = function() {
 html5up.prototype.checkBrowser = function()
 {
 	try{
-	formDataChk = new FormData();
+		formDataChk = new FormData();
 	}
 	catch(e)
 	{
-	formDataChk = false;
+		formDataChk = false;
 	}
 	try{
-	xhrChk = new XMLHttpRequest();
+		xhrChk = new XMLHttpRequest();
 	}
 	catch(e)
 	{
-	xhrChk = false;
+		xhrChk = false;
 	}
 
 	if(xhrChk && formDataChk)
