@@ -12,7 +12,6 @@ Features
 * Display upload progress 
 * Display upload errors
 
-
 Browser support
 ----------------
 This works in every modern browser. That is - not in IE.
