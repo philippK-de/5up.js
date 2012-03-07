@@ -52,27 +52,28 @@ html5up.prototype.upload = function() {
 
 }
 
+//display progress. you can overwrite this on runtime to implement different display options
 html5up.prototype.progress = function(evt) {
 	if (evt.lengthComputable) {
         var percentComplete = Math.round(evt.loaded * 100 / evt.total);
         indicator.innerHTML  = percentComplete.toString() + '%';
-
        }
        else {
-         indicator.innerHTML  = 'unable to compute';
+         indicator.innerHTML  = "N/A";
        }
 }
 
+//this is fired when the UL is complete
 html5up.prototype.complete = function(evt) {
-        /* This event is raised when the server send back a response */
         console.log(evt.target.responseText);
         indicator.innerHTML = "100%";
       }
 
+//fired when there is an error
 html5up.prototype.failed = function(evt) {
-        alert("There was an error attempting to upload the file.");
+        alert("Error! File not uploaded.");
       }
-
+//fired when the upload has been canceled / connection lost
 html5up.prototype.canceled = function(evt) {
-        alert("The upload has been canceled by the user or the browser dropped the connection.");
+        alert("The upload has been canceled.");
       }
