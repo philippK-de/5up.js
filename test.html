@@ -14,13 +14,24 @@
 
       <input type="button"  value="Upload" onclick = "uploader.upload();" />
   </form>
-<div id = "fileInfo1" >
+<div id = "fileInfo1">
 
 </div>
 <div id="progress1">0</div>
 
     <script type = "text/javascript">
 	uploader = new html5up("myFiles1","progress1","fileInfo1");
+	uploader.progress = function(evt)
+	{
+		if (evt.lengthComputable) {
+        var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+        document.title = percentComplete.toString() + '%';
+
+       }
+       else {
+         indicator.innerHTML  = 'unable to compute';
+       }
+	}
 	</script>
 </body>
 </html>

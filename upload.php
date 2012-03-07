@@ -1,4 +1,6 @@
 <?php
+set_time_limit(0);
+ini_set("max_file_uploads",128 );
 echo "<pre>";
 foreach($_FILES as $file)
 {
