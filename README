@@ -11,6 +11,7 @@ Features
 * Upload multiple files at once
 * Display upload progress 
 * Display upload errors
+* Lightweight (3Kb of source code)
 
 Browser support
 ----------------
