@@ -8,3 +8,7 @@ It does not use any nonstandard extensions like flash or activeX to do the uploa
 
 You can also display progress information for the upload while it is in progress.
 Uploading multiple files is supported.
+
+Browser support
+----------------
+This works in every modern browser. That is - not in IE.
