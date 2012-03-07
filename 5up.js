@@ -34,25 +34,25 @@ html5up.prototype.fileInfo = function()
 
 html5up.prototype.upload = function() {
 	var theFiles = this.theFiles.files;
-	var fd = new FormData();
+	var myData = new FormData();
 
 	for(var i = 0;i<theFiles.length;i++)
 		{
-			fd.append("fileToUpload"+i, theFiles[i]);
+			myData.append("fileToUpload"+i, theFiles[i]);
 		}
 
 	var xhr = new XMLHttpRequest();
-    xhr.upload.addEventListener("progress", this.uploadProgress, false);
-    xhr.addEventListener("load", this.uploadComplete, false);
-    xhr.addEventListener("error", this.uploadFailed, false);
-    xhr.addEventListener("abort", this.uploadCanceled, false);
+    xhr.upload.addEventListener("progress", this.progress, false);
+    xhr.addEventListener("load", this.complete, false);
+    xhr.addEventListener("error", this.failed, false);
+    xhr.addEventListener("abort", this.canceled, false);
     xhr.open("POST", "upload.php");
-    xhr.send(fd);
+    xhr.send(myData);
 
 
 }
 
-html5up.prototype.uploadProgress = function(evt,huhu) {
+html5up.prototype.progress = function(evt) {
 	if (evt.lengthComputable) {
         var percentComplete = Math.round(evt.loaded * 100 / evt.total);
         indicator.innerHTML  = percentComplete.toString() + '%';
@@ -63,16 +63,16 @@ html5up.prototype.uploadProgress = function(evt,huhu) {
        }
 }
 
-html5up.prototype.uploadComplete = function(evt) {
+html5up.prototype.complete = function(evt) {
         /* This event is raised when the server send back a response */
         console.log(evt.target.responseText);
         indicator.innerHTML = "100%";
       }
 
-html5up.prototype.uploadFailed = function(evt) {
+html5up.prototype.failed = function(evt) {
         alert("There was an error attempting to upload the file.");
       }
 
-html5up.prototype.uploadCanceled = function(evt) {
+html5up.prototype.canceled = function(evt) {
         alert("The upload has been canceled by the user or the browser dropped the connection.");
       }
