@@ -3,8 +3,6 @@ function html5up(theFiles,theIndicator,theInfoEl)
 	this.theFiles = document.getElementById(theFiles);
 	this.infoEl = document.getElementById(theInfoEl);
 	indicator = document.getElementById(theIndicator);
-
-	this.progress = 0;
 }
 
 html5up.prototype.fileInfo = function()
@@ -37,25 +35,16 @@ html5up.prototype.fileInfo = function()
 html5up.prototype.upload = function() {
 	var theFiles = this.theFiles.files;
 	var myData = new FormData();
-console.log(theFiles.length);
+
 	for(var i = 0;i<theFiles.length;i++)
 		{
 			myData.append("myUploadFile"+i, theFiles[i]);
-
-console.log(i);
 		}
 	var xhr = new XMLHttpRequest();
-	  xhr.onreadystatechange=function()
-  {
-  console.log("state"+xhr.status);
-  if (xhr.readyState==4 && xhr.status==200)
-    {
 
-    console.log(xhr.responseText);
-    }
-  }
-    xhr.upload.addEventListener("progress", this.progress, false);
+ 	xhr.upload.addEventListener("progress", this.progress, false);
     xhr.addEventListener("load", this.complete, false);
+
     xhr.addEventListener("error", this.failed, false);
     xhr.addEventListener("abort", this.canceled, false);
     xhr.open("POST", "upload.php",true);
@@ -68,8 +57,6 @@ html5up.prototype.progress = function(evt) {
 	if (evt.lengthComputable) {
         var percentComplete = Math.round(evt.loaded * 100 / evt.total);
         indicator.innerHTML  = percentComplete.toString() + '%';
-        this.progress = percentComplete.toString();
-
        }
        else {
          indicator.innerHTML  = "N/A";
@@ -78,7 +65,6 @@ html5up.prototype.progress = function(evt) {
 
 //this is fired when the UL is complete
 html5up.prototype.complete = function(evt) {
-        console.log(evt.target.responseText);
         indicator.innerHTML = "100%";
       }
 
