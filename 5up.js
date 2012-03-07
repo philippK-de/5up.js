@@ -1,6 +1,5 @@
-function html5up(theForm,theFiles,theIndicator,theInfoEl)
+function html5up(theFiles,theIndicator,theInfoEl)
 {
-this.theForm = document.getElementById(theForm);
 this.theFiles = document.getElementById(theFiles);
 this.infoEl = document.getElementById(theInfoEl);
 indicator = document.getElementById(theIndicator);
