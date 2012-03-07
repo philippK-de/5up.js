@@ -1,8 +1,9 @@
-function html5up(theForm,theFiles,theInfoEl)
+function html5up(theForm,theFiles,theIndicator,theInfoEl)
 {
 this.theForm = document.getElementById(theForm);
 this.theFiles = document.getElementById(theFiles);
 this.infoEl = document.getElementById(theInfoEl);
+indicator = document.getElementById(theIndicator);
 }
 
 html5up.prototype.fileInfo = function()
@@ -32,78 +33,47 @@ html5up.prototype.fileInfo = function()
 }
 
 
-      html5up.prototype.upload = function() {
-		var theFiles = this.theFiles.files;
+html5up.prototype.upload = function() {
+	var theFiles = this.theFiles.files;
+	var fd = new FormData();
 
-		var boundary = "AJAX--------------" + (new Date).getTime();
-		var contentType = "multipart/form-data; boundary=" + boundary;
-		var theReq = this.readElms(theFiles,boundary);
+	for(var i = 0;i<theFiles.length;i++)
+		{
+			fd.append("fileToUpload"+i, theFiles[i]);
+		}
+
+	var xhr = new XMLHttpRequest();
+    xhr.upload.addEventListener("progress", this.uploadProgress, false);
+    xhr.addEventListener("load", this.uploadComplete, false);
+    xhr.addEventListener("error", this.uploadFailed, false);
+    xhr.addEventListener("abort", this.uploadCanceled, false);
+    xhr.open("POST", "upload.php");
+    xhr.send(fd);
 
 
-		var xhr = new XMLHttpRequest();
-
-        xhr.addEventListener("progress", uploadProgress, false);
-        xhr.addEventListener("load", uploadComplete, false);
-        xhr.addEventListener("error", uploadFailed, false);
-        xhr.addEventListener("abort", uploadCanceled, false);
-        xhr.open("POST", "upload.php");
-
-
-        xhr.setRequestHeader("Content-Type", contentType);
-		xhr.send(theReq);
 }
 
-html5up.prototype.readElms = function(elements, boundary) {
-    var CRLF = "\r\n";
-    var parts = [];
-    var reader = new FileReader();
+html5up.prototype.uploadProgress = function(evt,huhu) {
+	if (evt.lengthComputable) {
+        var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+        indicator.innerHTML  = percentComplete.toString() + '%';
 
-    for(i=0;i<elements.length;i++)
-	{
-	    var part = "";
-        var type = "TEXT";
-            var fileName = elements[i].fileName;
-
-            part += 'Content-Disposition: form-data; ';
-            part += 'name="' + fileName + '"; ';
-            part += 'filename="'+ fileName + '"' + CRLF;
-
-            part += "Content-Type: application/octet-stream";
-            part += CRLF + CRLF; // marks end of the headers part
-
-            part += elements[i] + CRLF;
-
-
-       parts.push(part);
+       }
+       else {
+         indicator.innerHTML  = 'unable to compute';
+       }
 }
 
-    var request = "--" + boundary + CRLF;
-        request+= parts.join("--" + boundary + CRLF);
-        request+= "--" + boundary + "--" + CRLF;
-
-    return request;
-}
-
-      function uploadProgress(evt) {
-        if (evt.lengthComputable) {
-          var percentComplete = Math.round(evt.loaded * 100 / evt.total);
-          document.getElementById('progressNumber').innerHTML = percentComplete.toString() + '%';
-          console.log(percentComplete.toString());
-        }
-        else {
-          document.getElementById('progressNumber').innerHTML = 'unable to compute';
-        }
-      }
-
-      function uploadComplete(evt) {
+html5up.prototype.uploadComplete = function(evt) {
         /* This event is raised when the server send back a response */
         console.log(evt.target.responseText);
+        indicator.innerHTML = "100%";
       }
 
-      function uploadFailed(evt) {
+html5up.prototype.uploadFailed = function(evt) {
         alert("There was an error attempting to upload the file.");
       }
 
-      function uploadCanceled(evt) {
+html5up.prototype.uploadCanceled = function(evt) {
         alert("The upload has been canceled by the user or the browser dropped the connection.");
       }

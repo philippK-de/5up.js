@@ -1,6 +1,9 @@
 <?php
 echo "<pre>";
-print_r($_FILES);
-print_r($_POST);
+foreach($_FILES as $file)
+{
+ move_uploaded_file($file["tmp_name"],"./upload/" . $file["name"]);
+	echo $file["tmp_name"] . "->" . $file["name"] . "<br />\n";
+}
 
 ?>
