@@ -17,7 +17,6 @@ html5up.prototype.fileInfo = function()
    //String to be written to the HTML element where the fileinfo is displayed
    var outstr = "";
 
-   outstr += "<ol>";
    //loop through all the files from the file input field
    for(var i=0;i<theFiles.length;i++)
    {
@@ -37,7 +36,7 @@ html5up.prototype.fileInfo = function()
 		outstr += "<li>" + theFiles[i].name + "</li>";
 	    }
     }
-	outstr += "</ol>";
+	outstr = "<ol>" + (outstr.length ? outstr : "<li>-</li>") + "</ol>";
 	//Write the file info to the HTML element
 	this.infoEl.innerHTML = outstr;
 }
